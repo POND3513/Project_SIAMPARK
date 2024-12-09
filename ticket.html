@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<style>
+    body {
+        background-image: url('img/banner9.jpg');
+        background-size: cover;
+        background-position: center; 
+        background-repeat: no-repeat;
+        height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .container {
+        background-color: rgb(255, 255, 255);
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 30px;
+    }
+    .container{
+        margin-top: 50px;
+    }
+</style>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div style="background-color: #99CCFF; padding: 10px; height: 120px;">
+        <a href="Home.html"><img src="img/logo-amazing.svg" style="padding: 10px;" height="100"></a>
+        <a href="price.html"><img src="img/tag.png" align="right" style="padding: 20px;" height="100"></a>
+        <a href="ticket.html"><img src="img/ticket.png" align="right" style="padding: 20px;" height="100"></a>
+        <a href="traval.html"><img src="img/traval.png" align="right" style="padding: 20px;" height="100"></a>
+        <a href="activity.html"><img src="img/activity.png" align="right" style="padding: 20px;" height="100"></a>
+    </div>
+
+    <div class="container">
+        <button class="btn btn-success" data-toggle="modal" data-target="#addTicketModal">เพิ่มตั๋วใหม่</button>
+
+        <h2 class="mt-4">ข้อมูลตั๋วทั้งหมด</h2>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ประเภทบัตร</th>
+                    <th>ราคา</th>
+                    <th>รายละเอียด</th>
+                    <th>การกระทำ</th>
+                </tr>
+            </thead>
+            <tbody id="tickets-list">
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal สำหรับเพิ่มตั๋ว -->
+    <div class="modal fade" id="addTicketModal" tabindex="-1" role="dialog" aria-labelledby="addTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addTicketModalLabel">เพิ่มตั๋วใหม่</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="addTicketForm">
+                        <div class="form-group">
+                            <label for="ticket-type">ประเภทบัตร:</label>
+                            <select class="form-control" id="ticket-type" name="ticket-type" required>
+                                <option value="adult-water-pass">บัตรผ่านประตู และสวนน้ำ Adult Water Pass (500 บาท)</option>
+                                <option value="adult-adventure-pass">บัตรผ่านประตู รวมสวนน้ำและสวนสนุก Adult Adventure Pass (1,000 บาท)</option>
+                                <option value="annual-adventure-pass">บัตรรายปี Annual Adventure Pass (2,500 บาท)</option>
+                                <option value="kid-adventure-pass">บัตรผ่านประตู รวมสวนน้ำและสวนสนุก Kid Adventure Pass (200 บาท)</option>
+                                <option value="senior-water-pass">บัตรผ่านประตู และสวนน้ำสำหรับผู้สูงอายุ (ฟรี)</option>
+                                <option value="free-pass">เด็กสูงไม่เกิน 100 ซม. (ฟรี)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ticket-description">รายละเอียด:</label>
+                            <textarea class="form-control" id="ticket-description" name="ticket-description"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">เพิ่มตั๋ว</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal สำหรับแก้ไขตั๋ว -->
+    <div class="modal fade" id="editTicketModal" tabindex="-1" role="dialog" aria-labelledby="editTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editTicketModalLabel">แก้ไขตั๋ว</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editTicketForm">
+                        <input type="hidden" id="edit-ticket-id">
+                        <div class="form-group">
+                            <label for="edit-ticket-type">ประเภทบัตร:</label>
+                            <select class="form-control" id="edit-ticket-type" name="ticket-type" required>
+                                <option value="adult-water-pass">บัตรผ่านประตู และสวนน้ำ Adult Water Pass (500 บาท)</option>
+                                <option value="adult-adventure-pass">บัตรผ่านประตู รวมสวนน้ำและสวนสนุก Adult Adventure Pass (1,000 บาท)</option>
+                                <option value="annual-adventure-pass">บัตรรายปี Annual Adventure Pass (2,500 บาท)</option>
+                                <option value="kid-adventure-pass">บัตรผ่านประตู รวมสวนน้ำและสวนสนุก Kid Adventure Pass (200 บาท)</option>
+                                <option value="senior-water-pass">บัตรผ่านประตู และสวนน้ำสำหรับผู้สูงอายุ (ฟรี)</option>
+                                <option value="free-pass">เด็กสูงไม่เกิน 100 ซม. (ฟรี)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-ticket-description">รายละเอียด:</label>
+                            <textarea class="form-control" id="edit-ticket-description" name="ticket-description"
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal สำหรับยืนยันการลบตั๋ว -->
+    <div class="modal fade" id="deleteTicketModal" tabindex="-1" role="dialog" aria-labelledby="deleteTicketModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteTicketModalLabel">ยืนยันการลบตั๋ว</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>คุณต้องการลบตั๋วนี้หรือไม่?</p>
+                    <button type="button" class="btn btn-danger" id="confirm-delete">ลบ</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+    <script>
+        let tickets = [];  // ตัวแปรเก็บข้อมูลตั๋ว
+
+        // ฟังก์ชันเพื่อเพิ่มตั๋วใหม่
+        $("#addTicketForm").on("submit", function(event) {
+            event.preventDefault();
+            const ticketType = $("#ticket-type").val();
+            const newTicket = {
+                id: tickets.length + 1,
+                type: ticketType,
+                description: $("#ticket-description").val(),
+                price: getPrice(ticketType)
+            };
+            tickets.push(newTicket);
+            displayTickets();
+            $('#addTicketModal').modal('hide');
+        });
+
+        // ฟังก์ชันเพื่อดึงราคาตามประเภทบัตร
+        function getPrice(ticketType) {
+            switch (ticketType) {
+                case "adult-water-pass":
+                    return "500 บาท";
+                case "adult-adventure-pass":
+                    return "1,000 บาท";
+                case "annual-adventure-pass":
+                    return "2,500 บาท";
+                case "kid-adventure-pass":
+                    return "200 บาท";
+                case "senior-water-pass":
+                    return "ฟรี";
+                case "free-pass":
+                    return "ฟรี";
+                default:
+                    return "ไม่ระบุราคา";
+            }
+        }
+
+        // ฟังก์ชันแสดงข้อมูลตั๋ว
+        function displayTickets() {
+            const ticketsList = $("#tickets-list");
+            ticketsList.empty();  // ล้างตารางก่อน
+            tickets.forEach(ticket => {
+                ticketsList.append(`
+                    <tr>
+                        <td>${ticket.id}</td>
+                        <td>${getTicketTypeName(ticket.type)}</td>
+                        <td>${ticket.price}</td>
+                        <td>${ticket.description}</td>
+                        <td>
+                            <button class="btn btn-info" onclick="editTicket(${ticket.id})">แก้ไข</button>
+                            <button class="btn btn-danger" onclick="deleteTicket(${ticket.id})">ลบ</button>
+                        </td>
+                    </tr>
+                `);
+            });
+        }
+
+        // ฟังก์ชันเพื่อแปลงประเภทบัตรเป็นชื่อที่เข้าใจง่าย
+        function getTicketTypeName(ticketType) {
+            switch (ticketType) {
+                case "adult-water-pass":
+                    return "Adult Water Pass";
+                case "adult-adventure-pass":
+                    return "Adult Adventure Pass";
+                case "annual-adventure-pass":
+                    return "Annual Adventure Pass";
+                case "kid-adventure-pass":
+                    return "Kid Adventure Pass";
+                case "senior-water-pass":
+                    return "Senior Water Pass";
+                case "free-pass":
+                    return "Free Pass (เด็กสูงไม่เกิน 100 ซม.)";
+                default:
+                    return "ไม่ระบุ";
+            }
+        }
+
+        // ฟังก์ชันแก้ไขตั๋ว
+        function editTicket(id) {
+            const ticket = tickets.find(t => t.id === id);
+            $("#edit-ticket-id").val(ticket.id);
+            $("#edit-ticket-type").val(ticket.type);
+            $("#edit-ticket-description").val(ticket.description);
+            $('#editTicketModal').modal('show');
+        }
+
+        // ฟังก์ชันบันทึกการแก้ไขตั๋ว
+        $("#editTicketForm").on("submit", function(event) {
+            event.preventDefault();
+            const ticketId = $("#edit-ticket-id").val();
+            const ticket = tickets.find(t => t.id == ticketId);
+            ticket.type = $("#edit-ticket-type").val();
+            ticket.description = $("#edit-ticket-description").val();
+            ticket.price = getPrice(ticket.type);
+            displayTickets();
+            $('#editTicketModal').modal('hide');
+        });
+
+        // ฟังก์ชันลบตั๋ว
+        function deleteTicket(id) {
+            const ticket = tickets.find(t => t.id === id);
+            $('#deleteTicketModal').modal('show');
+            $("#confirm-delete").on("click", function() {
+                tickets = tickets.filter(t => t.id !== id);
+                displayTickets();
+                $('#deleteTicketModal').modal('hide');
+            });
+        }
+    </script>
+
+</body>
+
+</html>
